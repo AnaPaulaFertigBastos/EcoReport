@@ -10,7 +10,7 @@ namespace EcoReport.Models
         // Foreign key
         [Required]
         public int PontoId { get; set; }
-        public int TipoDeAreaId { get; set; }
+        public int? TipoDeAreaId { get; set; }
         public string? Descricao { get; set; }
 
         // Navegacao foreign key

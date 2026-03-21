@@ -21,6 +21,6 @@ namespace EcoReport.Models
 
         public bool Ativo { get; set; }
 
-        
+        public DateTime Data { get; set; } = DateTime.UtcNow;
     }
 }
