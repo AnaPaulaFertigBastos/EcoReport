@@ -16,16 +16,11 @@ namespace EcoReport.Models
         [Required]
         public double Lon { get; set; }
 
-        public string ArquivoDes { get; set; }
-        public string Arquivo { get; set; }
+        public string? ArquivoDes { get; set; }
+        public string? Arquivo { get; set; }
 
         public bool Ativo { get; set; }
 
-        // Foreign key
-        public int TipoDeAreaId { get; set; }
-
-        // Navegacao foreign key
-
-        public TipoDeArea TipoDeArea { get; set; }
+        
     }
 }

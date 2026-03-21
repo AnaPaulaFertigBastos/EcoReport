@@ -11,5 +11,10 @@ namespace EcoReport.Data
         {
         }
 
+        public DbSet<Ponto> Ponto { get; set; }
+        public DbSet<TipoDeArea> TipoDeArea { get; set; }
+
+        public DbSet<PontoTipoDeArea> PontoTipoDeArea { get; set; }
+
     }
 }
