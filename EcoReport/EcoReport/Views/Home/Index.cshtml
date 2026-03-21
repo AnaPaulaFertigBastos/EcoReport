@@ -3,9 +3,39 @@
 }
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="~/wwwroot/js/site.js"></script>
+<script src="~/js/site.js" defer></script>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <div id="map" style="height:500px;"></div>
+
+    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel-novo" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="NovoForm" name="NovoForm" enctype="multipart/form-data">
+                   
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="standard-modalLabel-novo">Ponto selecionado</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="form-group" style="margin-top:10px;">
+                            <label class="control-label">Descrição</label>
+                            <input name="Descricao" type="text" class="form-control" required />
+                        </div>
+                        <div class="form-group" style="margin-top:10px;">
+                            <label class="control-label">Arquivo</label>
+                            <input name="Arquivo" type="file" class="form-control" required />
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Enviar</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal novo -->
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

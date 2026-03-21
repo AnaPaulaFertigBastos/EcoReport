@@ -5,6 +5,17 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap'
 }).addTo(map);
 
+let latSelecionada;
+let lonSelecionada;
+function abrirModal(lat, lon) {
+    latSelecionada = lat;
+    lonSelecionada = lon;
+
+    const modal = new bootstrap.Modal(document.getElementById('modal'));
+    modal.show();
+
+}
+
 navigator.geolocation.getCurrentPosition(function(position) {
 
     var lat = position.coords.latitude;
@@ -12,11 +23,12 @@ navigator.geolocation.getCurrentPosition(function(position) {
 
     map.setView([lat, lng], 15);
 
-    L.marker([lat, lng])
+    var currentPosition = L.marker([lat, lng])
         .addTo(map)
         .bindPopup("Sua localização")
         .openPopup();
 
+    currentPosition._icon.classList.add('current-location-icon');
 });
 
 var marker;
@@ -25,12 +37,15 @@ map.on('click', function(e) {
 
     if(marker){
         map.removeLayer(marker);
+        
     }
 
     marker = L.marker(e.latlng).addTo(map);
 
     console.log("Latitude:", e.latlng.lat);
     console.log("Longitude:", e.latlng.lng);
+
+    abrirModal(e.latlng.lat, e.latlng.lng)
 
 });
 
