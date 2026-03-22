@@ -5,8 +5,8 @@
     // var tiposDeArea = (List<TipoDeArea>)ViewData["TiposDeArea"];
 }
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="~/js/site.js" defer></script>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <div id="map" style="height:500px;"></div>
@@ -14,20 +14,25 @@
     <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-novo-ponto" >
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="NovoForm" name="NovoForm" enctype="multipart/form-data">
+                <form id="FormPonto" name="FormPonto" enctype="multipart/form-data">
                    
                     <div class="modal-header">
                         <h4 class="modal-title" id="modal-novo-ponto">Ponto selecionado</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                     </div>
-                    <div class="modal-body">
-                        
+                    <div class="modal-body text-start">
+                        <div id="containerErro" style="display:none;" class="alert alert-danger align-items-center" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <div id="mensagemErro"></div>
+                        </div>
+                        <input type="hidden" id="lat" name="Lat" value="" />
+                        <input type="hidden" id="lon" name="Lon" value="" />
                         <div class="form-group" style="margin-top:10px;">
-                            <label class="control-label">Descrição:</label>
-                            <input name="Descricao" type="text" class="form-control" required />
+                            <label class="control-label">Descrição: *</label>
+                            <input name="Descricao" type="text" class="form-control" required/>
                         </div>
                         <div class="form-group" style="margin-top:10px;">
-                            <label class="control-label">Classificação:</label>
+                            <label class="control-label">Classificação: *</label>
                             
                                 @foreach (var tipo in Model ) {
                                 
@@ -35,7 +40,7 @@
                                         <input 
                                             type="checkbox" 
                                             class="form-check-input"
-                                            name="TipoDeAreaIds" 
+                                            name="Tipos[]" 
                                             value="@tipo.Id" />
 
                                         <label class="form-check-label">
@@ -55,13 +60,17 @@
                                         Outro
                                     </label>
                                 </div>
-                                <input type="type" name="name" value="" style="display:none;" id="inputOutroTipo" placeholder="Escreva..." />
+                                <div class="form-group" style="margin-top:10px;">
+                                    
+                                <input type="type" name="OutraClassificacao" value="" style="display:none;" id="inputOutroTipo" class="form-control" placeholder="Escreva..." />
+                                </div>
+                                
                             
                         </div>
 
                         <div class="form-group" style="margin-top:10px;">
                             <label class="control-label">Foto:</label>
-                            <input name="Arquivo" type="file" class="form-control" required />
+                            <input name="Arquivo" type="file" class="form-control" />
                         </div>
                         
                     </div>

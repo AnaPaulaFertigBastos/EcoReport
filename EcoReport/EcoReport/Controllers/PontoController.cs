@@ -8,6 +8,7 @@ using System.Transactions;
 
 namespace EcoReport.Controllers
 {
+
     public class PontoController : Controller
     {
         private readonly ILogger<PontoController> logger;
@@ -24,7 +25,8 @@ namespace EcoReport.Controllers
             return arquivo.Length <= maxFileSize;
         }
 
-        public async Task<IActionResult> CriarPonto(PontoRequestDTO pontoRequest)
+        [HttpPost]
+        public async Task<IActionResult> Criar(PontoRequestDTO pontoRequest)
         {
             try
             {
@@ -50,7 +52,14 @@ namespace EcoReport.Controllers
 
                     var pasta = Path.Combine("pontos");
 
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", pasta, arquivoWExtension);
+                    var directory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", pasta);
+
+                    if (!Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+
+                    var path = Path.Combine(directory, arquivoWExtension);
 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
@@ -74,8 +83,9 @@ namespace EcoReport.Controllers
                         Ativo = true
                     };
 
-                    _context.Add(ponto);
                     await _context.Ponto.AddAsync(ponto);
+
+                    await _context.SaveChangesAsync();
 
                     var idPonto = ponto.Id;
 
@@ -97,6 +107,15 @@ namespace EcoReport.Controllers
 
                     var listaTiposLimpos = pontoRequest.Tipos.Distinct().ToList();
 
+                    if (listaTiposLimpos.Count == 0 && String.IsNullOrEmpty(pontoRequest.OutraClassificacao))
+                    {
+                        return Json(new
+                        {
+                            success = false,
+                            message = "Envie pelo menos um tipo de classificação."
+                        });
+                    }
+                   
                     if (listaTiposLimpos.Count > 0)
                     {
                         // pega somente os tipos de área que existem no banco, para nao dar erro de chave estrangeira
@@ -112,6 +131,7 @@ namespace EcoReport.Controllers
                             await _context.PontoTipoDeArea.AddAsync(classificacao);
                         }
                     }
+                    
 
                     await _context.SaveChangesAsync();
                     transaction.Commit();
