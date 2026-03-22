@@ -16,6 +16,19 @@ function abrirModal(lat, lon) {
 
 }
 
+const checkOutroTipo = document.getElementById("checkOutroTipo");
+const inputOutroTipo = document.getElementById("inputOutroTipo");
+
+checkOutroTipo.addEventListener("change", function () {
+    if (this.checked) {
+        inputOutroTipo.style.display = "block";
+    }
+    else {
+        inputOutroTipo.style.display = "none";
+        inputOutroTipo.value = "";
+    }
+})
+
 navigator.geolocation.getCurrentPosition(function(position) {
 
     var lat = position.coords.latitude;

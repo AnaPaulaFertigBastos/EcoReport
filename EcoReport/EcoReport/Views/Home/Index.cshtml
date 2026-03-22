@@ -11,23 +11,56 @@
     <h1 class="display-4">Welcome</h1>
     <div id="map" style="height:500px;"></div>
 
-    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel-novo" >
+    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-novo-ponto" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="NovoForm" name="NovoForm" enctype="multipart/form-data">
                    
                     <div class="modal-header">
-                        <h4 class="modal-title" id="standard-modalLabel-novo">Ponto selecionado</h4>
+                        <h4 class="modal-title" id="modal-novo-ponto">Ponto selecionado</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                     </div>
                     <div class="modal-body">
                         
                         <div class="form-group" style="margin-top:10px;">
-                            <label class="control-label">Descrição</label>
+                            <label class="control-label">Descrição:</label>
                             <input name="Descricao" type="text" class="form-control" required />
                         </div>
                         <div class="form-group" style="margin-top:10px;">
-                            <label class="control-label">Arquivo</label>
+                            <label class="control-label">Classificação:</label>
+                            
+                                @foreach (var tipo in Model ) {
+                                
+                                    <div class="form-check">
+                                        <input 
+                                            type="checkbox" 
+                                            class="form-check-input"
+                                            name="TipoDeAreaIds" 
+                                            value="@tipo.Id" />
+
+                                        <label class="form-check-label">
+                                            @tipo.Classificacao
+                                        </label>
+                                    </div>
+                                
+                                }
+                                <div class="form-check">
+                                    <input type="checkbox"
+                                           class="form-check-input"
+                                           name="OutroTipo"
+                                           id="checkOutroTipo"
+                                           value="0" />
+
+                                    <label class="form-check-label">
+                                        Outro
+                                    </label>
+                                </div>
+                                <input type="type" name="name" value="" style="display:none;" id="inputOutroTipo" placeholder="Escreva..." />
+                            
+                        </div>
+
+                        <div class="form-group" style="margin-top:10px;">
+                            <label class="control-label">Foto:</label>
                             <input name="Arquivo" type="file" class="form-control" required />
                         </div>
                         
