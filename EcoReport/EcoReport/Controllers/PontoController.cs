@@ -20,7 +20,8 @@ namespace EcoReport.Controllers
             _context = context;
         }
 
-        public async Task<List<PontoSalvoDTO>> PontosSalvos()
+        [HttpGet]
+        public async Task<IActionResult> PontosSalvos()
         {
             var pontos = await _context.Ponto
                 .Where(ponto => ponto.Ativo)
@@ -32,7 +33,7 @@ namespace EcoReport.Controllers
                 })
                 .ToListAsync();
 
-            return pontos;
+            return Ok(pontos);
         }
         private async Task<bool> VerificarTamanhoArquivo(IFormFile arquivo)
         {
@@ -45,7 +46,8 @@ namespace EcoReport.Controllers
         {
             try
             {
-                
+                Console.WriteLine(pontoRequest.Lat);
+                Console.WriteLine(pontoRequest.Lon);
 
                 var idArquivo = Guid.NewGuid();
 

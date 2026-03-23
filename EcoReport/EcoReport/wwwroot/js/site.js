@@ -1,9 +1,61 @@
 ﻿
+
+// Mapa
+
 var map = L.map('map').setView([-27.1, -52.6], 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap'
 }).addTo(map);
+
+let pontosCarregados;
+
+let markers = [];
+
+async function carregarPontos() {
+    try {
+        const response = await fetch('/Ponto/PontosSalvos');
+
+        if (!response.ok) {
+            throw new Error('Erro na requisição');
+        }
+
+        pontosCarregados = await response.json();
+
+        console.log(pontosCarregados);
+
+        pontosCarregados.forEach(p => {
+            const markedPin = L.marker([parseFloat(p.lat), parseFloat(p.lon)]).addTo(map);
+            markedPin.pontoId = p.id;
+            markedPin._icon.classList.add('marked-pin');
+
+            markers.push(markedPin);
+            console.log(markedPin);
+        });
+    }
+    catch (erro) {
+        console.error('Erro: ', erro);
+    }
+}
+
+carregarPontos();
+
+// Localizacao atual
+
+navigator.geolocation.getCurrentPosition(function(position) {
+
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;
+
+    map.setView([lat, lng], 15);
+
+    var currentPosition = L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup("Sua localização")
+        .openPopup();
+
+    currentPosition._icon.classList.add('current-location-icon');
+});
 
 let latSelecionada;
 let lonSelecionada;
@@ -32,7 +84,7 @@ function abrirCadastrarModal(lat, lon) {
 }
 
 function fecharCadastrarModal() {
-    
+
     const modalElement = document.getElementById('cadastroModal');
     const modal = bootstrap.Modal.getInstance(modalElement);
 
@@ -54,21 +106,6 @@ checkOutroTipo.addEventListener("change", function () {
     }
 })
 
-navigator.geolocation.getCurrentPosition(function(position) {
-
-    var lat = position.coords.latitude;
-    var lng = position.coords.longitude;
-
-    map.setView([lat, lng], 15);
-
-    var currentPosition = L.marker([lat, lng])
-        .addTo(map)
-        .bindPopup("Sua localização")
-        .openPopup();
-
-    currentPosition._icon.classList.add('current-location-icon');
-});
-
 var marker;
 
 map.on('click', function(e) {
@@ -88,7 +125,6 @@ map.on('click', function(e) {
 });
 
 
-
 function exibirErro(message) {
     containerErro.classList.remove("display-none-imp");
     mensagemErro.textContent = message;
@@ -104,6 +140,7 @@ document.getElementById("FormPonto").addEventListener("submit", function (e) {
 
     fetch('/Ponto/Criar', {
         method: 'POST',
+
         body: formData
     })
         .then(response => {

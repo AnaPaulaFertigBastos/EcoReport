@@ -7,7 +7,11 @@ html {
 }
 
 .current-location-icon {
-    filter: hue-rotate(90deg);
+    filter: hue-rotate(190deg);
+}
+
+.marked-pin {
+    filter: hue-rotate(150deg);
 }
 
 @media (min-width: 768px) {
