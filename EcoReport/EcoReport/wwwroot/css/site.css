@@ -2,6 +2,10 @@ html {
   font-size: 14px;
 }
 
+.display-none-imp {
+    display: none !important;
+}
+
 .current-location-icon {
     filter: hue-rotate(90deg);
 }

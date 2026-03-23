@@ -7,7 +7,16 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let latSelecionada;
 let lonSelecionada;
-function abrirModal(lat, lon) {
+
+const checkOutroTipo = document.getElementById("checkOutroTipo");
+const inputOutroTipo = document.getElementById("inputOutroTipo");
+
+const containerErro = document.getElementById("containerErro");
+const mensagemErro = document.getElementById("mensagemErro");
+function abrirCadastrarModal(lat, lon) {
+
+    inputOutroTipo.classList.add("display-none-imp");
+
     latSelecionada = lat;
     lonSelecionada = lon;
 
@@ -17,32 +26,30 @@ function abrirModal(lat, lon) {
     const inputLon = document.getElementById('lon');
     inputLon.value = lon;
 
-    const modal = new bootstrap.Modal(document.getElementById('modal'));
+    const modal = new bootstrap.Modal(document.getElementById('cadastroModal'));
     modal.show();
 
 }
 
-function fecharModal() {
+function fecharCadastrarModal() {
     
-    const modalElement = document.getElementById('modal');
+    const modalElement = document.getElementById('cadastroModal');
     const modal = bootstrap.Modal.getInstance(modalElement);
 
     if (modal) {
         modal.hide();
         form.reset();
+        containerErro.classList.add("display-none-imp");
     }
 
 }
 
-const checkOutroTipo = document.getElementById("checkOutroTipo");
-const inputOutroTipo = document.getElementById("inputOutroTipo");
-
 checkOutroTipo.addEventListener("change", function () {
     if (this.checked) {
-        inputOutroTipo.style.display = "block";
+        inputOutroTipo.classList.remove("display-none-imp");
     }
     else {
-        inputOutroTipo.style.display = "none";
+        inputOutroTipo.classList.add("display-none-imp");
         inputOutroTipo.value = "";
     }
 })
@@ -76,15 +83,14 @@ map.on('click', function(e) {
     console.log("Latitude:", e.latlng.lat);
     console.log("Longitude:", e.latlng.lng);
 
-    abrirModal(e.latlng.lat, e.latlng.lng)
+    abrirCadastrarModal(e.latlng.lat, e.latlng.lng)
 
 });
 
-const containerErro = document.getElementById("containerErro");
-const mensagemErro = document.getElementById("mensagemErro");
+
 
 function exibirErro(message) {
-    containerErro.style.display = "flex";
+    containerErro.classList.remove("display-none-imp");
     mensagemErro.textContent = message;
 }
 
@@ -112,7 +118,7 @@ document.getElementById("FormPonto").addEventListener("submit", function (e) {
                 return;
             }
 
-            fecharModal();
+            fecharCadastrarModal();
             
         })
         .catch(error => {

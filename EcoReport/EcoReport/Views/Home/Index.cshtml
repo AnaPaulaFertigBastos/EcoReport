@@ -4,6 +4,7 @@
     ViewData["Title"] = "Home Page";
     // var tiposDeArea = (List<TipoDeArea>)ViewData["TiposDeArea"];
 }
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -11,7 +12,7 @@
     <h1 class="display-4">Welcome</h1>
     <div id="map" style="height:500px;"></div>
 
-    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-novo-ponto" >
+    <div id="cadastroModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-novo-ponto">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="FormPonto" name="FormPonto" enctype="multipart/form-data">
@@ -21,7 +22,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                     </div>
                     <div class="modal-body text-start">
-                        <div id="containerErro" style="display:none;" class="alert alert-danger align-items-center" role="alert">
+                        <div id="containerErro" class="alert alert-danger align-items-center display-none-imp" role="alert">
                             <i class="bi bi-exclamation-triangle-fill me-2"></i>
                             <div id="mensagemErro"></div>
                         </div>
@@ -62,7 +63,7 @@
                                 </div>
                                 <div class="form-group" style="margin-top:10px;">
                                     
-                                <input type="type" name="OutraClassificacao" value="" style="display:none;" id="inputOutroTipo" class="form-control" placeholder="Escreva..." />
+                                <input type="text" name="OutraClassificacao" value="" id="inputOutroTipo" class="form-control display-none-imp" placeholder="Escreva..." />
                                 </div>
                                 
                             

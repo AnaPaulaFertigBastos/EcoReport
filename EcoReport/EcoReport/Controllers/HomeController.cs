@@ -23,7 +23,8 @@ namespace EcoReport.Controllers
             var tiposDeArea = await _context.TipoDeArea
                 .OrderBy(t => t.Classificacao)
                 .ToListAsync();
-            //ViewData["TiposDeArea"] = tiposDeArea;
+
+            
             return View(tiposDeArea);
         }
 

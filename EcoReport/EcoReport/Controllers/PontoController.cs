@@ -19,6 +19,21 @@ namespace EcoReport.Controllers
             this.logger = logger;
             _context = context;
         }
+
+        public async Task<List<PontoSalvoDTO>> PontosSalvos()
+        {
+            var pontos = await _context.Ponto
+                .Where(ponto => ponto.Ativo)
+                .Select(ponto => new PontoSalvoDTO 
+                {
+                    Id = ponto.Id,
+                    Lat = ponto.Lat,
+                    Lon = ponto.Lon
+                })
+                .ToListAsync();
+
+            return pontos;
+        }
         private async Task<bool> VerificarTamanhoArquivo(IFormFile arquivo)
         {
             const long maxFileSize = 5 * 1024 * 1024; // 5 MB
