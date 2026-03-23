@@ -21,6 +21,55 @@ namespace EcoReport.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> VisualizarPonto(int id)
+        {
+            var pontoDto = new VisualizarPontoDTO();
+            var classificacoes = new List<string>();
+            try
+            {
+                var ponto = await _context.Ponto
+                    .Where(ponto => ponto.Id == id)
+                    .FirstOrDefaultAsync();
+
+                var pontoTiposDeArea = await _context.PontoTipoDeArea
+                    .Where(ptipo => ptipo.PontoId == id)
+                    .Include(ptipo => ptipo.TipoDeArea)
+                    .ToListAsync();
+
+                foreach (var tipoDeArea in pontoTiposDeArea)
+                {
+                    if (tipoDeArea.TipoDeAreaId != null)
+                        classificacoes.Add(tipoDeArea.TipoDeArea.Classificacao);
+                    else
+                        classificacoes.Add(tipoDeArea.Descricao);
+
+                }
+
+                pontoDto = new VisualizarPontoDTO()
+                {
+                    Id = ponto.Id,
+                    Descricao = ponto.Descricao,
+                    Lat = ponto.Lat,
+                    Lon = ponto.Lon,
+                    Arquivo = ponto.Arquivo,
+                    Ativo = ponto.Ativo,
+                    Data = ponto.Data,
+                    Classificacoes = classificacoes
+                };
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Erro ao criar ponto");
+                Console.WriteLine(ex);
+
+            }
+
+            return Ok(pontoDto);
+
+        }
+
+        [HttpGet]
         public async Task<IActionResult> PontosSalvos()
         {
             var pontos = await _context.Ponto
@@ -50,6 +99,8 @@ namespace EcoReport.Controllers
                 Console.WriteLine(pontoRequest.Lon);
 
                 var idArquivo = Guid.NewGuid();
+
+                int idPonto;
 
                 string? arquivoWExtension = null;
                 string? arquivoNome = null;
@@ -104,7 +155,7 @@ namespace EcoReport.Controllers
 
                     await _context.SaveChangesAsync();
 
-                    var idPonto = ponto.Id;
+                    idPonto = ponto.Id;
 
                     if (pontoRequest.OutraClassificacao != null)
                     {
@@ -161,15 +212,15 @@ namespace EcoReport.Controllers
 
                 }
 
-                return Json(new { success = true, message = "Ponto criado." });
+                return Json(new { success = true, message = "Ponto criado.", id = idPonto});
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Erro ao criar ponto");
                 return Json(new
                 {
-                    success = true,
-                    message = "Ocorreu um erro ao criar o ponto. Tente novamente mais tarde."
+                    success = false,
+                    message = "Ocorreu um erro ao criar o ponto. Tente novamente mais tarde.",
                 });
 
             }

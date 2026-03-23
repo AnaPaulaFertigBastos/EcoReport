@@ -26,10 +26,8 @@ async function carregarPontos() {
 
         pontosCarregados.forEach(p => {
             const markedPin = L.marker([parseFloat(p.lat), parseFloat(p.lon)]).addTo(map);
-            markedPin.pontoId = p.id;
-            markedPin._icon.classList.add('marked-pin');
 
-            markers.push(markedPin);
+            configurarMarker(markedPin, p.id);
             console.log(markedPin);
         });
     }
@@ -57,6 +55,8 @@ navigator.geolocation.getCurrentPosition(function(position) {
     currentPosition._icon.classList.add('current-location-icon');
 });
 
+// Cadastrar um ponto
+
 let latSelecionada;
 let lonSelecionada;
 
@@ -66,8 +66,6 @@ const inputOutroTipo = document.getElementById("inputOutroTipo");
 const containerErro = document.getElementById("containerErro");
 const mensagemErro = document.getElementById("mensagemErro");
 function abrirCadastrarModal(lat, lon) {
-
-    inputOutroTipo.classList.add("display-none-imp");
 
     latSelecionada = lat;
     lonSelecionada = lon;
@@ -130,7 +128,14 @@ function exibirErro(message) {
     mensagemErro.textContent = message;
 }
 
+function novoPonto(lat, lon, id) {
+    const markedPin = L.marker([parseFloat(lat), parseFloat(lon)]).addTo(map);
+    configurarMarker(markedPin, id);
+}
+
 const form = document.getElementById("FormPonto");
+
+// Envio do ponto
 
 document.getElementById("FormPonto").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -140,7 +145,6 @@ document.getElementById("FormPonto").addEventListener("submit", function (e) {
 
     fetch('/Ponto/Criar', {
         method: 'POST',
-
         body: formData
     })
         .then(response => {
@@ -156,6 +160,10 @@ document.getElementById("FormPonto").addEventListener("submit", function (e) {
             }
 
             fecharCadastrarModal();
+
+            const latNovoPonto = parseFloat(formData.get("Lat"));
+            const lonNovoPonto = parseFloat(formData.get("Lon"))
+            novoPonto(latNovoPonto, lonNovoPonto, data.id)
             
         })
         .catch(error => {
@@ -164,3 +172,37 @@ document.getElementById("FormPonto").addEventListener("submit", function (e) {
         });
 })
 
+// Modal para visualizacao do ponto
+
+function abrirVisualizarModal(pontoId) {
+
+    const modal = new bootstrap.Modal(document.getElementById('visualizarPonto'));
+    modal.show();
+
+}
+
+function fecharVisualizarModal() {
+
+    const modalElement = document.getElementById('visualizarPonto');
+    const modal = bootstrap.Modal.getInstance(modalElement);
+
+    if (modal) {
+        modal.hide();
+        form.reset();
+    }
+
+}
+
+
+function configurarMarker(marker, id) {
+    marker.pontoId = id;
+
+    marker.on('click', function (e) {
+        L.DomEvent.stopPropagation(e);
+        abrirVisualizarModal(this.pontoId);
+    });
+
+    marker._icon.classList.add('marked-pin');
+
+    markers.push(marker);
+}
