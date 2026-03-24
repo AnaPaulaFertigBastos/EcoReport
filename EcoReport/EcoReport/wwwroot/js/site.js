@@ -60,11 +60,11 @@ navigator.geolocation.getCurrentPosition(function(position) {
 let latSelecionada;
 let lonSelecionada;
 
-const checkOutroTipo = document.getElementById("checkOutroTipo");
-const inputOutroTipo = document.getElementById("inputOutroTipo");
+const checkOutroTipo = document.getElementById("check-outro-tipo");
+const inputOutroTipo = document.getElementById("input-outro-tipo");
 
-const containerErro = document.getElementById("containerErro");
-const mensagemErro = document.getElementById("mensagemErro");
+const containerErro = document.getElementById("container-erro");
+const mensagemErro = document.getElementById("mensagem-erro");
 function abrirCadastrarModal(lat, lon) {
 
     latSelecionada = lat;
@@ -76,14 +76,14 @@ function abrirCadastrarModal(lat, lon) {
     const inputLon = document.getElementById('lon');
     inputLon.value = lon;
 
-    const modal = new bootstrap.Modal(document.getElementById('cadastroModal'));
+    const modal = new bootstrap.Modal(document.getElementById('cadastro-modal'));
     modal.show();
 
 }
 
 function fecharCadastrarModal() {
 
-    const modalElement = document.getElementById('cadastroModal');
+    const modalElement = document.getElementById('cadastro-modal');
     const modal = bootstrap.Modal.getInstance(modalElement);
 
     if (modal) {
@@ -133,11 +133,11 @@ function novoPonto(lat, lon, id) {
     configurarMarker(markedPin, id);
 }
 
-const form = document.getElementById("FormPonto");
+const form = document.getElementById("form-ponto");
 
 // Envio do ponto
 
-document.getElementById("FormPonto").addEventListener("submit", function (e) {
+document.getElementById("form-ponto").addEventListener("submit", function (e) {
     e.preventDefault();
 
     
@@ -176,14 +176,14 @@ document.getElementById("FormPonto").addEventListener("submit", function (e) {
 
 function abrirVisualizarModal(pontoId) {
 
-    const modal = new bootstrap.Modal(document.getElementById('visualizarPonto'));
+    const modal = new bootstrap.Modal(document.getElementById('visualizar-ponto'));
     modal.show();
 
 }
 
 function fecharVisualizarModal() {
 
-    const modalElement = document.getElementById('visualizarPonto');
+    const modalElement = document.getElementById('visualizar-ponto');
     const modal = bootstrap.Modal.getInstance(modalElement);
 
     if (modal) {
