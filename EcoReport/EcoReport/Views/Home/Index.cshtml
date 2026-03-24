@@ -21,18 +21,18 @@
                         <h4 class="modal-title" id="modal-novo-ponto">Ponto selecionado</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                     </div>
-                    <div class="modal-body text-start">
+                    <div class="modal-body d-flex flex-column text-start gap-3">
                         <div id="container-erro" class="alert alert-danger align-items-center display-none-imp" role="alert">
                             <i class="bi bi-exclamation-triangle-fill me-2"></i>
                             <div id="mensagem-erro"></div>
                         </div>
                         <input type="hidden" id="lat" name="Lat" value="" />
                         <input type="hidden" id="lon" name="Lon" value="" />
-                        <div class="form-group" style="margin-top:10px;">
+                        <div class="form-group d-flex flex-column gap-2 no-margin" style="margin-top:10px;">
                             <label class="control-label">Descrição: *</label>
                             <input name="Descricao" type="text" class="form-control" required/>
                         </div>
-                        <div class="form-group" style="margin-top:10px;">
+                        <div class="form-group d-flex flex-column gap-1" style="margin-top:10px;">
                             <label class="control-label">Classificação: *</label>
                             
                                 @foreach (var tipo in Model ) {
@@ -69,7 +69,7 @@
                             
                         </div>
 
-                        <div class="form-group" style="margin-top:10px;">
+                        <div class="form-group d-flex flex-column gap-2 no-margin" style="margin-top:10px;">
                             <label class="control-label">Foto:</label>
                             <input name="Arquivo" type="file" class="form-control" />
                         </div>
@@ -92,20 +92,20 @@
                     <h4 class="modal-title" id="modal-novo-ponto">Visualizar Ponto</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                 </div>
-                <div class="modal-body text-start">
-                    <div class="form-group" style="margin-top:10px;">
+                <div class="modal-body d-flex flex-column text-start gap-3">
+                    <div class="form-group d-flex flex-column gap-2">
                         <label class="control-label">Descrição: </label>
                         <input type="text" id="descricao-readonly" name="descricaoReadonly" class="form-control" value="" readonly />
                     </div>
-                    <div class="form-group" style="margin-top:10px;">
-                        <label class="control-label">Classificações: *</label>
+                    <div class="form-group d-flex flex-column gap-2">
+                        <p class="control-label no-margin">Classificações:</p>
                         <div id="classificacoes-readonly">
 
                         </div>
                     </div>
 
-                    <div class="form-group d-flex flex-column display-none-imp" style="margin-top:10px;" id="div-img-readonly">
-                        <p class="control-label">Foto:</p>
+                    <div class="form-group d-flex flex-column gap-2 display-none-imp" id="div-img-readonly">
+                        <p class="control-label no-margin">Foto:</p>
                         <div id="div-img-point" class="d-flex justify-content-center align-items-center">
                             <img src="#" alt="Imagem anexada ao ponto" />
                         </div>

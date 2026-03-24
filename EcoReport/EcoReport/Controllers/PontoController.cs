@@ -55,8 +55,6 @@ namespace EcoReport.Controllers
                 {
                     Id = ponto.Id,
                     Descricao = ponto.Descricao,
-                    Lat = ponto.Lat,
-                    Lon = ponto.Lon,
                     Arquivo = ponto.Arquivo,
                     Ativo = ponto.Ativo,
                     Data = ponto.Data,

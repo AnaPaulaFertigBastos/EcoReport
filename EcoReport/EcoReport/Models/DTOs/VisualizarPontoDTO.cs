@@ -9,11 +9,6 @@ namespace EcoReport.Models.DTOs
         [Required]
         public string Descricao { get; set; }
 
-        [Required]
-        public double Lat { get; set; }
-
-        [Required]
-        public double Lon { get; set; }
         public string? Arquivo { get; set; }
 
         public bool Ativo { get; set; }
