@@ -140,6 +140,8 @@ const form = document.getElementById("form-ponto");
 document.getElementById("form-ponto").addEventListener("submit", function (e) {
     e.preventDefault();
 
+    inputOutroTipo.classList.add("display-none-imp");
+
     
     const formData = new FormData(form);
 
@@ -172,6 +174,32 @@ document.getElementById("form-ponto").addEventListener("submit", function (e) {
         });
 })
 
+// Status de resolvido do ponto
+
+const switchInput = document.getElementById("statusSwitch");
+const label = document.getElementById("statusLabel");
+
+function atualizarStatus(ativo) {
+    // se nao estiver ativo, esta resolvido
+    const resolvido = !ativo;
+
+    switchInput.checked = resolvido;
+
+    if (resolvido) {
+        label.textContent = "Sim";
+    } else {
+        label.textContent = "Não";
+    }
+}
+
+switchInput.addEventListener("change", () => {
+    if (switchInput.checked) {
+        label.textContent = "Sim";
+    } else {
+        label.textContent = "Não";
+    }
+});
+
 // Modal para visualizacao do ponto
 
 
@@ -183,6 +211,7 @@ function visualizarDadosPonto (ponto) {
 
     classificacoesReadonly.textContent = "";
     const ul = document.createElement("ul");
+    ul.classList.add("no-margin");
 
     let itens = [];
     itens = ponto.classificacoes;
@@ -206,7 +235,8 @@ function visualizarDadosPonto (ponto) {
         const img = divImgReadonly.querySelector("img");
         img.src = window.location.origin + "/pontos/" + ponto.arquivo;
     }
-    
+
+    atualizarStatus(ponto.ativo)
     
 }
 
