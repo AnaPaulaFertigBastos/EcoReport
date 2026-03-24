@@ -21,16 +21,22 @@ namespace EcoReport.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> VisualizarPonto(int id)
+        public async Task<IActionResult> Visualizar(int id)
         {
             var pontoDto = new VisualizarPontoDTO();
             var classificacoes = new List<string>();
             try
             {
+                
                 var ponto = await _context.Ponto
                     .Where(ponto => ponto.Id == id)
                     .FirstOrDefaultAsync();
 
+                if (ponto == null)
+                {
+                    throw new Exception("Ponto é nulo");
+
+                }
                 var pontoTiposDeArea = await _context.PontoTipoDeArea
                     .Where(ptipo => ptipo.PontoId == id)
                     .Include(ptipo => ptipo.TipoDeArea)
@@ -60,12 +66,17 @@ namespace EcoReport.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Erro ao criar ponto");
+                logger.LogError(ex, "Erro ao visualizar ponto");
                 Console.WriteLine(ex);
 
             }
 
-            return Ok(pontoDto);
+            return Json(new
+            {
+                success = true,
+                message = "Ponto carregado.",
+                ponto = pontoDto
+            });
 
         }
 

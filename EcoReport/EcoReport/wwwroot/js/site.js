@@ -174,10 +174,72 @@ document.getElementById("form-ponto").addEventListener("submit", function (e) {
 
 // Modal para visualizacao do ponto
 
-function abrirVisualizarModal(pontoId) {
 
-    const modal = new bootstrap.Modal(document.getElementById('visualizar-ponto'));
-    modal.show();
+function visualizarDadosPonto (ponto) {
+    const descricaoReadonly = document.getElementById("descricao-readonly");
+    descricaoReadonly.value = ponto.descricao;
+
+    let classificacoesReadonly = document.getElementById("classificacoes-readonly");
+
+    classificacoesReadonly.textContent = "";
+    const ul = document.createElement("ul");
+
+    let itens = [];
+    itens = ponto.classificacoes;
+
+    console.log(itens);
+    itens.forEach(classificacao => {
+        const li = document.createElement("li");
+        li.textContent = classificacao;
+        ul.appendChild(li);
+    });
+
+    classificacoesReadonly.appendChild(ul);
+
+    const divImgReadonly = document.getElementById("div-img-readonly");
+
+    if (ponto.arquivo === null || ponto.arquivo === undefined) {
+        divImgReadonly.classList.add("display-none-imp");
+    }
+    else {
+        divImgReadonly.classList.remove("display-none-imp");
+        const img = divImgReadonly.querySelector("img");
+        img.src = window.location.origin + "/pontos/" + ponto.arquivo;
+    }
+    
+    
+}
+
+function abrirVisualizarModal(pontoId) {
+    console.log("aaaaaaaaaaaa", pontoId);
+    const url = new URL('/Ponto/Visualizar', window.location.origin);
+    url.searchParams.append('id', pontoId);
+
+    fetch(url, {
+        method: 'GET'
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro ao visualizar");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data.success) {
+                return;
+            }
+
+            visualizarDadosPonto(data.ponto);
+
+            const modal = new bootstrap.Modal(document.getElementById('visualizar-ponto'));
+            modal.show();
+
+        })
+        .catch(error => {
+            console.error("Erro: ", error);
+            exibirErro("Erro ao visualizar ponto. Tente novamente mais tarde.")
+        });
+    
 
 }
 

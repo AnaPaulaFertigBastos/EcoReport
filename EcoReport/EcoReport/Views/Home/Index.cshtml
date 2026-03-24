@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="form-group" style="margin-top:10px;">
                                     
-                                <input type="text" name="OutraClassificacao" value="" id="input-outro-tipo" class="form-control display-none-imp" placeholder="Escreva..." />
+                                    <input type="text" name="OutraClassificacao" value="" id="input-outro-tipo" class="form-control display-none-imp" placeholder="Escreva..." />
                                 </div>
                                 
                             
@@ -95,7 +95,7 @@
                 <div class="modal-body text-start">
                     <div class="form-group" style="margin-top:10px;">
                         <label class="control-label">Descrição: </label>
-                        <input type="text" id="descricao-readonly" name="descricaoReadonly" value="" readonly />
+                        <input type="text" id="descricao-readonly" name="descricaoReadonly" class="form-control" value="" readonly />
                     </div>
                     <div class="form-group" style="margin-top:10px;">
                         <label class="control-label">Classificações: *</label>
@@ -104,9 +104,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-top:10px;" id="div-img-readonly">
-                        <label class="control-label">Foto:</label>
-                        <img src="#" alt="Imagem anexada ao ponto" />
+                    <div class="form-group d-flex flex-column display-none-imp" style="margin-top:10px;" id="div-img-readonly">
+                        <p class="control-label">Foto:</p>
+                        <div id="div-img-point" class="d-flex justify-content-center align-items-center">
+                            <img src="#" alt="Imagem anexada ao ponto" />
+                        </div>
+                        
                     </div>
 
                 </div>
