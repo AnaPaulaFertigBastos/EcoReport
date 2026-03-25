@@ -78,6 +78,52 @@ namespace EcoReport.Controllers
 
         }
 
+        [HttpPatch]
+        public async Task<IActionResult> AlterarStatus(int id, bool resolvido)
+        {
+            try
+            {
+                var novoStatus = !resolvido;
+
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine(id);
+                Console.WriteLine(resolvido);
+
+
+                var ponto = await _context.Ponto.Where(p => p.Id == id).FirstOrDefaultAsync();
+
+                if (ponto == null)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "O ponto não foi encontrado.",
+                    });
+                }
+
+                ponto.Ativo = novoStatus;
+                
+                await _context.SaveChangesAsync();
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Status alterado.",
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Erro ao mudar status");
+                return Json(new
+                {
+                    success = false,
+                    message = "Ocorreu um erro ao mudar status do ponto. Tente novamente mais tarde.",
+                });
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> PontosSalvos()
         {

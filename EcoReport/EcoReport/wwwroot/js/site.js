@@ -176,8 +176,8 @@ document.getElementById("form-ponto").addEventListener("submit", function (e) {
 
 // Status de resolvido do ponto
 
-const switchInput = document.getElementById("statusSwitch");
-const label = document.getElementById("statusLabel");
+const switchInput = document.getElementById("status-switch");
+const statusLabel = document.getElementById("status-label");
 
 function atualizarStatus(ativo) {
     // se nao estiver ativo, esta resolvido
@@ -186,17 +186,17 @@ function atualizarStatus(ativo) {
     switchInput.checked = resolvido;
 
     if (resolvido) {
-        label.textContent = "Sim";
+        statusLabel.textContent = "Sim";
     } else {
-        label.textContent = "Não";
+        statusLabel.textContent = "Não";
     }
 }
 
 switchInput.addEventListener("change", () => {
     if (switchInput.checked) {
-        label.textContent = "Sim";
+        statusLabel.textContent = "Sim";
     } else {
-        label.textContent = "Não";
+        statusLabel.textContent = "Não";
     }
 });
 
@@ -206,6 +206,9 @@ switchInput.addEventListener("change", () => {
 function visualizarDadosPonto (ponto) {
     const descricaoReadonly = document.getElementById("descricao-readonly");
     descricaoReadonly.value = ponto.descricao;
+
+    const idPonto = document.getElementById("id-ponto");
+    idPonto.value = ponto.id;
 
     let classificacoesReadonly = document.getElementById("classificacoes-readonly");
 
@@ -285,7 +288,44 @@ function fecharVisualizarModal() {
 
 }
 
+// Enviar troca de status
 
+document.getElementById("form-alterar-status").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    const idPonto = document.getElementById("id-ponto").value;
+
+    const url = new URL('/Ponto/AlterarStatus', window.location.origin);
+    url.searchParams.append('id', idPonto);
+    url.searchParams.append('resolvido', switchInput.checked)
+
+    fetch(url, {
+        method: 'PATCH'
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro ao alterar status");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data.success) {
+                return;
+            }
+
+            fecharVisualizarModal();
+            removerMarker(idPonto);
+
+        })
+        .catch(error => {
+            console.error("Erro: ", error);
+            exibirErro("Erro ao visualizar ponto. Tente novamente mais tarde.")
+        });
+});
+
+//Configurar marker para cada ponto
 function configurarMarker(marker, id) {
     marker.pontoId = id;
 
@@ -297,4 +337,14 @@ function configurarMarker(marker, id) {
     marker._icon.classList.add('marked-pin');
 
     markers.push(marker);
+}
+
+function removerMarker(id) {
+    const markerARemover = markers.find(m => m.pontoId == id);
+    if (markerARemover) {
+        map.removeLayer(markerARemover);
+
+        const index = markers.indexOf(markerARemover);
+        markers.splice(index, 1);
+    }
 }
